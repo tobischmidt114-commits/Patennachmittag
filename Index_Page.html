@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patennachmittag - Organisation & Abstimmung</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0b141a;
+            color: #e9edef;
+            display: flex;
+            justify-content: center;
+            padding: 20px 10px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background-color: #202c33;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-message {
+            background-color: #005c4b;
+            color: #e9edef;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border-top-left-radius: 2px;
+            font-size: 15px;
+            line-height: 1.4;
+            max-width: 90%;
+            align-self: flex-start;
+        }
+
+        /* Event Card */
+        .event-card {
+            background-color: #111b21;
+            border: 1px solid #222d34;
+        }
+
+        .event-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .event-desc {
+            font-size: 14px;
+            color: #8696a0;
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+
+        .info-box {
+            background-color: #202c33;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #8696a0;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 500;
+            color: #e9edef;
+        }
+
+        /* Interactive Attendance Form */
+        .rsvp-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .rsvp-input {
+            background-color: #111b21;
+            border: 1px solid #222d34;
+            color: #e9edef;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .rsvp-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .rsvp-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-yes {
+            background-color: #00a884;
+            color: #111b21;
+        }
+
+        .btn-no {
+            background-color: #ea868f;
+            color: #111b21;
+        }
+
+        .attendee-list {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #8696a0;
+            border-top: 1px solid #222d34;
+            padding-top: 8px;
+        }
+
+        .attendee-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            color: #e9edef;
+        }
+
+        /* Poll Styling */
+        .poll-card {
+            background-color: #202c33;
+        }
+
+        .poll-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .poll-subtitle {
+            font-size: 13px;
+            color: #8696a0;
+            margin-bottom: 14px;
+        }
+
+        .poll-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .poll-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #111b21;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #222d34;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .poll-option:hover {
+            border-color: #00a884;
+        }
+
+        .option-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+        }
+
+        .vote-count {
+            font-size: 13px;
+            color: #8696a0;
+            font-weight: 600;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            accent-color: #00a884;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- 1. Ereignis Details -->
+    <div class="card event-card">
+        <div class="event-title">Patennachmittag</div>
+        <div class="event-desc">
+            Fragen und Abstimmungen bitte beantworten, der Zettel für Patennachmittag spätestens bis Freitag an Klasse.
+        </div>
+
+        <div class="info-box">
+            <div class="info-label">Datum und Uhrzeit</div>
+            <div class="info-value">Fr. 23. Okt., 13:15–15:55</div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-label">Adresse</div>
+            <div class="info-value">Wilhelm Hausenstein Gymnasium<br>Durmersheim Weisenburgerstraße 42</div>
+        </div>
+
+        <!-- Anwesenheit & Zusage -->
+        <div class="info-box">
+            <div class="info-label">Rückmeldung (Zusage)</div>
+            <div class="rsvp-form">
+                <input type="text" id="userName" class="rsvp-input" placeholder="Dein Name...">
+                <div class="rsvp-buttons">
+                    <button class="rsvp-btn btn-yes" onclick="submitRSVP(true)">Zusagen</button>
+                    <button class="rsvp-btn btn-no" onclick="submitRSVP(false)">Absagen</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="attendee-list">
+            <div><strong>Zusagen:</strong> <span id="yes-count">0</span> Person(en)</div>
+            <div id="yes-names"></div>
+            <div style="margin-top: 8px;"><strong>Absagen:</strong> <span id="no-count">0</span> Person(en)</div>
+            <div id="no-names"></div>
+        </div>
+    </div>
+
+    <!-- Intro Nachricht -->
+    <div class="chat-message">
+        Hi, ich hab jetzt ein paar Abstimmungen und Fragen wegen dem ersten Patennachmittag!
+    </div>
+
+    <!-- 2. Abstimmung: Essen (Einzelauswahl) -->
+    <div class="card poll-card">
+        <div class="poll-title">Essen</div>
+        <div class="poll-subtitle">✓ Wähle genau eine Option aus.</div>
+        <div class="poll-options">
+            <label class="poll-option">
+                <div class="option-left">
+                    <input type="radio" name="food" onchange="updateRadioVote('food')">
+                    <span>Selber Mitbringen 🙃</span>
+                </div>
+                <span class="vote-count" id="food-0">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left">
+                    <input type="radio" name="food" onchange="updateRadioVote('food')">
+                    <span>Pizza 🍕</span>
+                </div>
+                <span class="vote-count" id="food-1">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left">
+                    <input type="radio" name="food" onchange="updateRadioVote('food')">
+                    <span>Was anderes?</span>
+                </div>
+                <span class="vote-count" id="food-2">0</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- 3. Abstimmung: Uhrzeit (Mehrfachauswahl möglich) -->
+    <div class="card poll-card">
+        <div class="poll-title">Uhrzeit</div>
+        <div class="poll-subtitle">✓✓ Wähle eine oder mehrere Optionen aus.</div>
+        <div class="poll-options">
+            <label class="poll-option">
+                <div class="option-left"><input type="checkbox" onchange="toggleCheck(this, 'time-0')"><span>13:15-15:15</span></div>
+                <span class="vote-count" id="time-0">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left"><input type="checkbox" onchange="toggleCheck(this, 'time-1')"><span>13:20-15:20</span></div>
+                <span class="vote-count" id="time-1">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left"><input type="checkbox" onchange="toggleCheck(this, 'time-2')"><span>13:25-15:25</span></div>
+                <span class="vote-count" id="time-2">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left"><input type="checkbox" onchange="toggleCheck(this, 'time-3')"><span>13:30-15:30</span></div>
+                <span class="vote-count" id="time-3">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left"><input type="checkbox" onchange="toggleCheck(this, 'time-4')"><span>13:35-15:35</span></div>
+                <span class="vote-count" id="time-4">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left"><input type="checkbox" onchange="toggleCheck(this, 'time-5')"><span>13:40-15:40</span></div>
+                <span class="vote-count" id="time-5">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left"><input type="checkbox" onchange="toggleCheck(this, 'time-6')"><span>13:45-15:45</span></div>
+                <span class="vote-count" id="time-6">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left"><input type="checkbox" onchange="toggleCheck(this, 'time-7')"><span>13:50-15:50</span></div>
+                <span class="vote-count" id="time-7">0</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Intro Nachricht vor Aufgaben -->
+    <div class="chat-message">
+        In der kommenden Abstimmung bitte das ankreuzen, was man machen kann.
+    </div>
+
+    <!-- 4. Abstimmung: Aufgaben (Einzelauswahl) -->
+    <div class="card poll-card">
+        <div class="poll-title">Aufgaben</div>
+        <div class="poll-subtitle">✓ Wähle genau eine Option aus.</div>
+        <div class="poll-options">
+            <label class="poll-option">
+                <div class="option-left">
+                    <input type="radio" name="tasks" onchange="updateRadioVote('tasks')">
+                    <span>Spiele 🃏</span>
+                </div>
+                <span class="vote-count" id="tasks-0">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left">
+                    <input type="radio" name="tasks" onchange="updateRadioVote('tasks')">
+                    <span>Wenn Pizza bestellen und davor nach Preis gucken (Geldkinder berechnen) 💵</span>
+                </div>
+                <span class="vote-count" id="tasks-1">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left">
+                    <input type="radio" name="tasks" onchange="updateRadioVote('tasks')">
+                    <span>Zettel für Eltern und Schüler vorbereiten 🗂️</span>
+                </div>
+                <span class="vote-count" id="tasks-2">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left">
+                    <input type="radio" name="tasks" onchange="updateRadioVote('tasks')">
+                    <span>Wenn Pizza, Mensa bei Herr Kress anfordern 🧑‍🏫</span>
+                </div>
+                <span class="vote-count" id="tasks-3">0</span>
+            </label>
+            <label class="poll-option">
+                <div class="option-left">
+                    <input type="radio" name="tasks" onchange="updateRadioVote('tasks')">
+                    <span>Servietten besorgen (Essen) 🍕</span>
+                </div>
+                <span class="vote-count" id="tasks-4">0</span>
+            </label>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Mehrfachauswahl Logik (Checkboxen)
+    function toggleCheck(checkbox, id) {
+        const countSpan = document.getElementById(id);
+        let currentVotes = parseInt(countSpan.innerText);
+        if (checkbox.checked) {
+            countSpan.innerText = currentVotes + 1;
+        } else {
+            countSpan.innerText = currentVotes - 1;
+        }
+    }
+
+    // Einzelauswahl Logik (Radio buttons)
+    const radioStates = {};
+    function updateRadioVote(groupName) {
+        const radios = document.getElementsByName(groupName);
+        radios.forEach((radio, index) => {
+            const countSpan = document.getElementById(`${groupName}-${index}`);
+            if (radio.checked) {
+                countSpan.innerText = "1";
+            } else {
+                countSpan.innerText = "0";
+            }
+        });
+    }
+
+    // Zusage/Absage Logik
+    let yesCount = 0;
+    let noCount = 0;
+
+    function submitRSVP(isYes) {
+        const nameInput = document.getElementById('userName');
+        const name = nameInput.value.trim();
+
+        if (!name) {
+            alert("Bitte gib zuerst deinen Namen ein.");
+            return;
+        }
+
+        if (isYes) {
+            yesCount++;
+            document.getElementById('yes-count').innerText = yesCount;
+            const item = document.createElement('div');
+            item.className = 'attendee-item';
+            item.innerText = '✓ ' + name;
+            document.getElementById('yes-names').appendChild(item);
+        } else {
+            noCount++;
+            document.getElementById('no-count').innerText = noCount;
+            const item = document.createElement('div');
+            item.className = 'attendee-item';
+            item.innerText = '✗ ' + name;
+            document.getElementById('no-names').appendChild(item);
+        }
+
+        nameInput.value = '';
+    }
+</script>
+
+</body>
+</html>
